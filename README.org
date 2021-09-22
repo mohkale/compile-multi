@@ -1,0 +1,136 @@
+#+TITLE: compile-multi
+#+AUTHOR: Mohsin Kaleem
+# LocalWords: Makefiles alist
+
+
+
+A rewrite of [[https://github.com/ReanGD/emacs-multi-compile][multi-compile]] providing a simpler and more feature-full experience.
+
+This package provides a command that can be used to run compilation commands that
+match one or more predicates for the current directory or project. This can be used
+for example to list all of the makefile targets of a project and then execute one.
+
+#+CAPTION: Obligatory screenshot of compile-multi in action.
+[[https://user-images.githubusercontent.com/23294780/134347328-96583728-16d2-4e12-b9ec-43abcbd968b8.png]]
+
+* Table of Contents                                                     :TOC:
+- [[#installation][Installation]]
+  - [[#manually][Manually]]
+  - [[#from-melpa][From MELPA]]
+  - [[#straight][straight]]
+- [[#deviations-from-emacs-multi-compile][Deviations from emacs-multi-compile]]
+- [[#configuration][Configuration]]
+  - [[#triggers][Triggers]]
+  - [[#actions][Actions]]
+
+* Installation
+** Manually
+   1. Clone the repo.
+   2. Add the repo path to your emacs ~load-path~.
+   3. Load it when needed.
+
+** From MELPA
+   TODO: Melpa support.
+
+** straight
+   You can also install this package through the [[https://github.com/raxod502/straight.el][straight]] package manager.
+
+   #+begin_src emacs-lisp
+     (straight-use-package '(compile-multi :host github
+                                           :repo "mohkale/compile-multi"))
+   #+end_src
+
+* Deviations from emacs-multi-compile
+  This package isn't a copy of [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]], it's a lighter and more
+  feature-full re-write. The main changes from upstream are:
+  + No special formatting-directives/percent-sequences. Commands are lisp lists
+    that are evaluated, shell-quoted and concatenated together smartly.
+  + Support for dynamic command generation (such as from Makefiles) which can let you
+    use this package as a replacement for [[https://github.com/abo-abo/helm-make][helm-make]] and as a convenient base for
+    other such build frameworks.
+  + Support for lisp functions as direct compilation functions. For example
+    rustic-mode provides its own wrappers around compile, test and run and this
+    package can let you interface with those as well.
+
+* Configuration
+  The main configuration for ~compile-multi~ is ~compile-multi-config~. This should be an
+  alist with the ~car~ being the something matching current file, buffer or simply a
+  list form that can evaluates to true. The ~cdr~ should be a list of tasks/actions
+  that users can select when the trigger fires. An action is an cons of the action
+  name and something to be done when that action is selected.
+
+  Here's an example of the general layout of the configuration variable.
+
+  #+begin_src emacs-lisp
+    (setq
+     compile-multi-config '((trigger-1
+                             ("action1" . command-1)
+                             ("action2" . command-2))
+                            (trigger-2
+                             ("action1" . command-1)
+                             ("action2" . command-2))))
+  #+end_src
+
+** Triggers
+   Triggers can be mode-symbols, strings, interpreted as regexps for the
+   buffer-file-name or if the buffer has no file name then its buffer-name, or any
+   lisp form that is triggered when it evaluates to true.
+
+   This can be used alongside ~(setq compile-multi-default-directory #'projectile-project-root)~
+   to setup trigger based on project files.
+
+   #+begin_src emacs-lisp
+     (push '((file-exists-p "Makefile")
+             ("make:build" . "make build")
+             ("make:test" . "make test")
+             ("make:all" . "make all"))
+           compile-multi-config)
+   #+end_src
+
+** Actions
+   As a special case an action can be inserted as a function instead of an cons cell.
+   When this is the case the function will be called and expected to return a
+   collection of actions to be put in place of the functions position in the
+   configuration.
+
+   For example ~compile-multi-make~ provides a function that'll parse out all the
+   targets from a Makefile and generate actions for them.
+
+   #+begin_src emacs-lisp
+     (require 'compile-multi-make)
+
+     (push `((file-exists-p "Makefile")
+             ("action-1" . command-1)
+             ,#'compile-multi-make-targets
+             ("action-2" . command-2))
+           compile-multi-config)
+   #+end_src
+
+   When written as an alist the ~car~ of an action must always be the action name. The
+   ~cdr~ can vary depending on what the user wants.
+
+   When it's a string then the string is taken as a shell command to run for
+   compilation.
+   When a list each argument of the list is evaluated, shell-quoted and then
+   concatenated together.
+   *Note*: We don't shell quote strings, only evaluated lisp forms.
+   *Note*: Symbols can be replaced instead of evaluated using ~compile-multi-forms~.
+   For example
+
+   #+begin_src emacs-lisp
+     (push `(python-mode
+             ("python:pylint" "python3" "-m" "pylint" (buffer-file-name)))
+           compile-multi-config)
+   #+end_src
+
+   Lastly the action can be a function. In this case the function is called when the
+   action is selected. For example:
+
+   #+begin_src emacs-lisp
+     (defun byte-compile-this-file+ ()
+       (byte-compile-file (buffer-file-name)))
+
+     (push `(emacs-lisp-mode
+             ("emacs:bytecompile" . ,#'byte-compile-this-file+))
+           compile-multi-config)
+   #+end_src
