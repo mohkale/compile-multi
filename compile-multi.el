@@ -107,10 +107,10 @@ Returns an alist with key-type task-name and value-type shell-command."
                     (mapconcat (lambda (it)
                                  (or
                                   (and (symbolp it)
-                                       (let* ((val (or (alist-get task compile-multi-forms)
-                                                       task))
+                                       (let* ((val (or (alist-get it compile-multi-forms)
+                                                       it))
                                               (evaluated-value (eval val)))
-                                         (unless (stringp val)
+                                         (unless (stringp evaluated-value)
                                            (error "Failed to stringify task argument %s" val))
                                          evaluated-value))
                                   (let ((evaluated-value (eval it)))
