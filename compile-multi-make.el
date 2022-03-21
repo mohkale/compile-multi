@@ -58,9 +58,6 @@
 ;;;###autoload
 (defun compile-multi-make-targets (&optional file-name)
   "Retun a list of `compile-multi' targets for the Makefile FILE-NAME."
-  ;; (when-let ((name (buffer-file-name)))
-  ;;   `(("make:buffer" .
-  ;;      ,(concat "make " (shell-quote-argument (file-relative-name name))))))
   (cl-loop for it in (compile-multi-make--targets (or file-name "Makefile"))
            collect (cons (concat "make:" it)
                          (concat "make " (shell-quote-argument it)))))

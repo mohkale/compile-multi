@@ -28,6 +28,7 @@
 ;;; Code:
 
 (require 'seq)
+(require 'compile-multi-make)
 
 (defgroup compile-multi nil
   "A multi target interface to compile."
@@ -46,7 +47,15 @@
   "Alist of special let-forms that'll be substituted in `compile-multi-config'."
   :type '(alist :key-type symbol :value-type (sexp :tag "Expression")))
 
-(defcustom compile-multi-config nil
+(defcustom compile-multi-config
+  `(;; Golang
+    ((file-exists-p "go.sum")
+     ("go:build" . "go build -v")
+     ("go:test" . "go test"))
+    ;; GNU Make
+    ((file-exists-p "Makefile")
+     ,#'compile-multi-make-targets)
+    )
   "Alist of triggers and actions for those triggers."
   :type '(alist :key-type
                 (choice (symbol :tag "Major-mode")
