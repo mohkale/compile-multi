@@ -140,7 +140,7 @@ Returns an alist with key-type task-name and value-type shell-command."
         (setq cmd (format "%s" cmd))
         (concat " "
                 (propertize " " 'display `(space :align-to (- right ,(+ 1 (length cmd)))))
-                cmd)))))
+                (propertize cmd 'face 'completions-annotations))))))
 
 ;;;###autoload
 (defun compile-multi ()
@@ -169,7 +169,7 @@ Returns an alist with key-type task-name and value-type shell-command."
       (compile compile-cmd))
      ((functionp compile-cmd)
       (funcall compile-cmd))
-     (t (error "Don't know how to run the command cmd.")))))
+     (t (error "Don't know how to run the command cmd")))))
 
 (provide 'compile-multi)
 ;;; compile-multi.el ends here
