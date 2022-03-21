@@ -29,6 +29,7 @@
 
 (require 'seq)
 (require 'compile-multi-make)
+(require 'compile-multi-cmake)
 
 (defgroup compile-multi nil
   "A multi target interface to compile."
@@ -55,6 +56,9 @@
     ;; GNU Make
     ((file-exists-p "Makefile")
      ,#'compile-multi-make-targets)
+    ;; CMakeLists
+    ((file-exists-p "CMakeLists.txt")
+     ,#'compile-multi-cmake-targets)
     )
   "Alist of triggers and actions for those triggers."
   :type '(alist :key-type
