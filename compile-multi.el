@@ -30,6 +30,7 @@
 (require 'seq)
 (require 'compile-multi-make)
 (require 'compile-multi-cmake)
+(require 'compile-multi-ruby-thor)
 
 (defgroup compile-multi nil
   "A multi target interface to compile."
@@ -59,6 +60,9 @@
     ;; CMakeLists
     ((file-exists-p "CMakeLists.txt")
      ,#'compile-multi-cmake-targets)
+    ;; Ruby Thor
+    ((file-exists-p "Thorfile")
+     ,#'compile-multi-ruby-thor-targets)
     )
   "Alist of triggers and actions for those triggers."
   :type '(alist :key-type
