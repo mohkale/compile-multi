@@ -1,9 +1,11 @@
 ;;; compile-multi.el --- A multi target interface to compile -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021  mohsin kaleem
+;; Copyright (C) 2022  mohsin kaleem
 
 ;; Author: mohsin kaleem <mohkale@kisara.moe>
 ;; Keywords: tools, compile, build
+;; Package-Requires: ((emacs "28.0"))
+;; Version: 0.1
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -25,7 +27,6 @@
 
 ;;; Code:
 
-(require 's)
 (require 'seq)
 
 (defgroup compile-multi nil

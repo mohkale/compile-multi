@@ -1,6 +1,6 @@
-;;; compile-multi-make.el --- compile-multi task generator for makefiles -*- lexical-binding: t; -*-
+;;; compile-multi-make.el --- `compile-multi' task generator for Makefiles -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021  mohsin kaleem
+;; Copyright (C) 2022  mohsin kaleem
 
 ;; Author: mohsin kaleem <mohkale@kisara.moe>
 
