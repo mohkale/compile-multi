@@ -151,9 +151,11 @@ Returns an alist with key-type task-name and value-type shell-command."
                 (propertize cmd 'face 'completions-annotations))))))
 
 ;;;###autoload
-(defun compile-multi ()
-  "Multi-target interface to compile."
-  (interactive)
+(defun compile-multi (&optional query)
+  "Multi-target interface to compile.
+With optional argument QUERY allow user to modify compilation command before
+running."
+  (interactive "P")
   (let* ((default-directory (or (and compile-multi-default-directory
                                      (funcall compile-multi-default-directory))
                                 default-directory))
@@ -174,9 +176,15 @@ Returns an alist with key-type task-name and value-type shell-command."
                         (read-shell-command "Compile command: "))))
     (cond
      ((stringp compile-cmd)
+      (when query
+        (setq compile-cmd
+              (read-shell-command "Compile command: " compile-cmd)))
       (compile compile-cmd))
      ((functionp compile-cmd)
-      (funcall compile-cmd))
+      (if query
+          (eval-expression
+           (read--expression "Eval: " (format "(%s)" compile-command)))
+        (funcall compile-cmd)))
      (t (error "Don't know how to run the command cmd")))))
 
 (provide 'compile-multi)
