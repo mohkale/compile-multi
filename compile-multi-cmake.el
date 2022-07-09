@@ -40,10 +40,17 @@
     (goto-char (point-min))
     (let (res)
       (save-match-data
-        (while (re-search-forward (rx bol (one-or-more ".") " "
-                                      (group (minimal-match (one-or-more any)))
-                                      (optional " (the default if no target is provided)")
-                                      eol)
+        (while (re-search-forward (rx
+                                   bol
+                                   (or
+                                    (and
+                                     (group-n 1 (minimal-match (one-or-more any)))
+                                     ": " (one-or-more any))
+                                    (and
+                                     (one-or-more ".") " "
+                                     (group-n 1 (minimal-match (one-or-more any)))
+                                     (optional " (the default if no target is provided)")))
+                                   eol)
                                   nil t)
           (let ((target (match-string 1)))
             (push (cons (concat "cmake:" target)
