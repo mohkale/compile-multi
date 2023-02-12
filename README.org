@@ -2,6 +2,10 @@
 #+AUTHOR: Mohsin Kaleem
 # LocalWords: Makefiles alist
 
+#+html: <p align="right">
+#+html: <a href="https://github.com/mohkale/compile-multi" alt="lint" style="margin-right: 4px;"><img src="https://github.com/mohkale/compile-multi/actions/workflows/lint.yml/badge.svg" /></a>
+#+html: </p>
+
 
 
 A rewrite of [[https://github.com/ReanGD/emacs-multi-compile][multi-compile]] providing a simpler and more feature-full experience.
