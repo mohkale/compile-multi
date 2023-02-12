@@ -5,7 +5,7 @@
 ;; Author: mohsin kaleem <mohkale@kisara.moe>
 ;; Keywords: tools, compile, build
 ;; Package-Requires: ((emacs "28.0"))
-;; Version: 0.1
+;; Version: 0.2
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -28,9 +28,6 @@
 ;;; Code:
 
 (require 'seq)
-(require 'compile-multi-make)
-(require 'compile-multi-cmake)
-(require 'compile-multi-ruby-thor)
 
 (defgroup compile-multi nil
   "A multi target interface to compile."
@@ -49,21 +46,7 @@
   "Alist of special let-forms that'll be substituted in `compile-multi-config'."
   :type '(alist :key-type symbol :value-type (sexp :tag "Expression")))
 
-(defcustom compile-multi-config
-  `(;; Golang
-    ((file-exists-p "go.sum")
-     ("go:build" . "go build -v")
-     ("go:test" . "go test"))
-    ;; GNU Make
-    ((file-exists-p "Makefile")
-     ,#'compile-multi-make-targets)
-    ;; CMakeLists
-    ((file-exists-p "CMakeLists.txt")
-     ,#'compile-multi-cmake-targets)
-    ;; Ruby Thor
-    ((file-exists-p "Thorfile")
-     ,#'compile-multi-ruby-thor-targets)
-    )
+(defcustom compile-multi-config nil
   "Alist of triggers and actions for those triggers."
   :type '(alist :key-type
                 (choice (symbol :tag "Major-mode")

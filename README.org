@@ -99,9 +99,13 @@ for example to list all of the makefile targets of a project and then execute on
    #+begin_src emacs-lisp
      (require 'compile-multi-make)
 
+     (defun compile-multi-make-targets+ ()
+       ;; Read targets from Makefile.
+       '(("make:foo" . "foo")))
+
      (push `((file-exists-p "Makefile")
              ("action-1" . command-1)
-             ,#'compile-multi-make-targets
+             ,#'compile-multi-make-targets+
              ("action-2" . command-2))
            compile-multi-config)
    #+end_src
