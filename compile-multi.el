@@ -6,6 +6,7 @@
 ;; Keywords: tools, compile, build
 ;; Package-Requires: ((emacs "28.0"))
 ;; Version: 0.2
+;; Homepage: https://github.com/mohkale/compile-multi
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
