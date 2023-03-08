@@ -169,7 +169,7 @@ running."
           (eval-expression
            (read--expression "Eval: " (format "(%s)" compile-command)))
         (funcall compile-cmd)))
-     (t (error "Don't know how to run the command cmd")))))
+     (t (error "Don't know how to run the command %s" compile-cmd)))))
 
 (provide 'compile-multi)
 ;;; compile-multi.el ends here
