@@ -6,6 +6,7 @@
 ;; Keywords: tools, compile, build
 ;; Package-Requires: ((emacs "28.0"))
 ;; Version: 0.2
+;; Homepage: https://github.com/mohkale/compile-multi
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -22,8 +23,13 @@
 
 ;;; Commentary:
 
-;; Lets you generate a bunch of compilation commands for the current buffer
-;; or project directory and then select one to execute.
+;; Multi target interface to `compile'.
+;;
+;; This package exposes facilities for generating a collection of compilation
+;; commands for the current buffer or project and interactively select one to
+;; run. This can be plugged into various build frameworks such as Make or CMake
+;; to automatically determine the list of available targets and let you
+;; interactively select one to run.
 
 ;;; Code:
 
@@ -168,7 +174,7 @@ running."
           (eval-expression
            (read--expression "Eval: " (format "(%s)" compile-command)))
         (funcall compile-cmd)))
-     (t (error "Don't know how to run the command cmd")))))
+     (t (error "Don't know how to run the command %s" compile-cmd)))))
 
 (provide 'compile-multi)
 ;;; compile-multi.el ends here

@@ -4,6 +4,7 @@
 
 #+html: <p align="right">
 #+html: <a href="https://github.com/mohkale/compile-multi" alt="lint" style="margin-right: 4px;"><img src="https://github.com/mohkale/compile-multi/actions/workflows/lint.yml/badge.svg" /></a>
+#+html: <a href="https://melpa.org/#/compile-multi"><img align="center" alt="MELPA" src="https://melpa.org/packages/compile-multi.svg"/></a>
 #+html: </p>
 
 
@@ -34,7 +35,14 @@ for example to list all of the makefile targets of a project and then execute on
    3. Load it when needed.
 
 ** From MELPA
-   TODO: Melpa support.
+   This package is on [[https://github.com/melpa/melpa][MELPA]]. You can add this to your ~package-archives~ variable and
+   then install through ~M-x package-install~.
+
+   #+begin_src emacs-lisp
+     (push '("melpa" . "https://melpa.org/packages/") package-archives)
+     (package-refresh-contents)
+     (package-install 'compile-multi)
+   #+end_src
 
 ** straight
    You can also install this package through the [[https://github.com/raxod502/straight.el][straight]] package manager.
