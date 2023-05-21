@@ -134,8 +134,8 @@ Returns an alist with key-type task-name and value-type shell-command."
        ;; Command is a preformatted plist, nothing to be done.
        ((and (listp (cdr task))
              (keywordp (cadr task)))
-        (cl-assert (plist-get (cdr task) :command) nil
-                   "Task %S has a missing command value" task)
+        ;; (cl-assert (plist-get (cdr task) :command) nil
+        ;;            "Task %S has a missing command value" task)
         (when-let ((annotation (plist-get (cdr task) :annotation)))
           (plist-put (cdr task) :annotation
                      (when compile-multi-annotate-cmds
