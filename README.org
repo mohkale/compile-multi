@@ -105,8 +105,8 @@ for example to list all of the makefile targets of a project and then execute on
    collection of actions to be put in place of the functions position in the
    configuration.
 
-   For example ~compile-multi-make~ provides a function that'll parse out all the
-   targets from a Makefile and generate actions for them.
+   For example you can write a ~compile-multi-make~ that'll parse out all the targets
+   from a Makefile and generate actions for them.
 
    #+begin_src emacs-lisp
      (require 'compile-multi-make)
@@ -129,6 +129,10 @@ for example to list all of the makefile targets of a project and then execute on
    compilation.
    When a list each argument of the list is evaluated, shell-quoted and then
    concatenated together.
+   When a plist you can set the =:command= property and supply any alternative
+   properties to customise the execution of the target. For example the ~:annotation~
+   property sets the affixated annotation for the action in the minibuffer.
+
    *Note*: We don't shell quote strings, only evaluated lisp forms.
    *Note*: Symbols can be replaced instead of evaluated using ~compile-multi-forms~.
    For example
