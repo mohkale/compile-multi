@@ -77,31 +77,30 @@ Set to nil to disable truncation."
           (const t :tag "Group candidates.")
           (const nil :tag "Never group candidates.")))
 
-(defun compile-multi--annotation-function (tasks)
-  "Annotation function for `compile-multi' using TASKS."
-  (lambda (it)
-    (when compile-multi-annotate-cmds
-      (when-let ((cmd (plist-get (cdr (assoc it tasks)) :annotation)))
-        (when (and compile-multi-annotate-limit
-                   (>= (length cmd) compile-multi-annotate-limit))
-          (setq cmd
-                (concat
-                 (string-remove-suffix
-                  " "
-                  (substring cmd 0 compile-multi-annotate-limit))
-                 "…")))
-        (concat " "
-                (propertize " " 'display `(space :align-to (- right ,(+ 1 (length cmd)))))
-                (propertize cmd 'face 'completions-annotations))))))
+(defun compile-multi--annotation-function (task)
+  "Annotator for TASK."
+  (when-let ((cmd (plist-get (cdr task) :annotation)))
+    (when (and compile-multi-annotate-limit
+               (>= (length cmd) compile-multi-annotate-limit))
+      (setq cmd
+            (concat
+             (string-remove-suffix
+              " "
+              (substring cmd 0 compile-multi-annotate-limit))
+             "…")))
+    (concat " "
+            (propertize " " 'display `(space :align-to (- right ,(+ 1 (length cmd)))))
+            (propertize cmd 'face 'completions-annotations))))
 
 (defun compile-multi--group-function (cand transform)
   "Group function for `compile-multi' on CAND and TRANSFORM."
   (when compile-multi-group-cmds
-    (when-let ((group-pos (string-match-p ":" cand)))
+    (when-let ((type (get-text-property 0 'consult--type cand))
+               (type (symbol-name type)))
       (if transform
           (when (eq compile-multi-group-cmds 'group-and-replace)
-            (substring cand (1+ group-pos)))
-        (substring cand 0 group-pos)))))
+            (substring cand (1+ (length type))))
+        type))))
 
 (cl-defgeneric compile-multi-read-actions (_interface tasks)
   "Interactively select a `compile-multi' action from TASKS."
@@ -110,7 +109,11 @@ Set to nil to disable truncation."
           (lambda (string predicate action)
             (if (eq action 'metadata)
                 `(metadata
-                  (annotation-function . ,(compile-multi--annotation-function tasks))
+                  (annotation-function
+                   . ,(when compile-multi-annotate-cmds
+                        (lambda (task)
+                          (compile-multi--annotation-function
+                           (assoc task tasks)))))
                   (group-function . ,#'compile-multi--group-function)
                   (category . compile-multi))
               (complete-with-action action tasks string predicate)))
@@ -231,6 +234,14 @@ The plist will contain a command and an optional annotation property for task."
        (t (error "Unknown task type: %s" task))))
     (nreverse res)))
 
+(defun compile-multi--add-type-property (tasks)
+  "Attach a type property to `compile-multi' TASKS."
+  (dolist (task tasks)
+    (when-let* ((group-pos (string-match-p ":" (car task)))
+                (type (intern (substring (car task) 0 group-pos))))
+      (add-text-properties 0 1 (list 'consult--type type) (car task))))
+  tasks)
+
 
 
 ;;; Main entrypoint
@@ -251,8 +262,10 @@ running."
   (let* ((default-directory (or (and compile-multi-default-directory
                                      (funcall compile-multi-default-directory))
                                 default-directory))
-         (tasks (compile-multi--tasks))
-         (tasks (compile-multi--fill-tasks tasks))
+         (tasks (thread-first
+                  (compile-multi--tasks)
+                  (compile-multi--fill-tasks)
+                  (compile-multi--add-type-property)))
          (compile-cmd (if tasks
                           (plist-get
                            (cdr (compile-multi-read-actions
