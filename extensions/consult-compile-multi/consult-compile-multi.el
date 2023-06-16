@@ -1,6 +1,6 @@
 ;;; consult-compile-multi.el --- `consult'-ing read support for `compile-multi' -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022  mohsin kaleem
+;; Copyright (C) 2023  mohsin kaleem
 
 ;; Author: mohsin kaleem <mohkale@kisara.moe>
 ;; Keywords: tools, compile, build

@@ -7,3 +7,5 @@
 (files "extensions/*/*.el")
 
 (depends-on "consult")
+(depends-on "all-the-icons")
+(depends-on "all-the-icons-completion")
