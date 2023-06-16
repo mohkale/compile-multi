@@ -70,6 +70,13 @@ has significance when `compile-multi-annotate-cmds' is true."
 Set to nil to disable truncation."
   :type '(optional integer))
 
+(defcustom compile-multi-group-cmds 'group-and-replace
+  "Group commands with the same `compile-multi' root prefix."
+  :type '(choice
+          (const group-and-replace :tag "Group and remove group prefix.")
+          (const t :tag "Group candidates.")
+          (const nil :tag "Never group candidates.")))
+
 (defun compile-multi--annotation-function (tasks)
   "Annotation function for `compile-multi' using TASKS."
   (lambda (it)
@@ -87,6 +94,15 @@ Set to nil to disable truncation."
                 (propertize " " 'display `(space :align-to (- right ,(+ 1 (length cmd)))))
                 (propertize cmd 'face 'completions-annotations))))))
 
+(defun compile-multi--group-function (cand transform)
+  "Group function for `compile-multi' on CAND and TRANSFORM."
+  (when compile-multi-group-cmds
+    (when-let ((group-pos (string-match-p ":" cand)))
+      (if transform
+          (when (eq compile-multi-group-cmds 'group-and-replace)
+            (substring cand (1+ group-pos)))
+        (substring cand 0 group-pos)))))
+
 (cl-defgeneric compile-multi-read-actions (_interface tasks)
   "Interactively select a `compile-multi' action from TASKS."
   (assoc (completing-read
@@ -95,6 +111,7 @@ Set to nil to disable truncation."
             (if (eq action 'metadata)
                 `(metadata
                   (annotation-function . ,(compile-multi--annotation-function tasks))
+                  (group-function . ,#'compile-multi--group-function)
                   (category . compile-multi))
               (complete-with-action action tasks string predicate)))
           nil t nil 'compile-multi-history)
