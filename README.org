@@ -26,6 +26,8 @@ for example to list all of the makefile targets of a project and then execute on
 - [[#configuration][Configuration]]
   - [[#triggers][Triggers]]
   - [[#actions][Actions]]
+- [[#extensions][Extensions]]
+  - [[#consult-multi-compile][consult-multi-compile]]
 
 * Installation
 ** Manually
@@ -144,4 +146,19 @@ for example to list all of the makefile targets of a project and then execute on
      (push `(emacs-lisp-mode
              ("emacs:bytecompile" . ,#'byte-compile-this-file+))
            compile-multi-config)
+   #+end_src
+
+* Extensions
+** consult-multi-compile
+   Is an extension for multi-compile that runs the interactive selection of targets
+   through consult instead of completing-read. This is very similar to the existing
+   completing-read interface but enhances it with some useful consult features such
+   as narrowing.
+
+   #+begin_src emacs-lisp
+     (use-package consult-multi-compile
+       :ensure t
+       :after multi-compile
+       :demand t
+       :config (consult-multi-compile-mode))
    #+end_src

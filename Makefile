@@ -1,4 +1,4 @@
-SRC   := $(wildcard *.el)
+SRC   := $(wildcard *.el extensions/*/*.el)
 BIN   := $(subst .el,.elc,$(SRC))
 EMACS ?= cask emacs \
     --eval '(push (concat default-directory) load-path)'
