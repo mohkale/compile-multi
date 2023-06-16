@@ -22,7 +22,6 @@ for example to list all of the makefile targets of a project and then execute on
 - [[#installation][Installation]]
   - [[#manually][Manually]]
   - [[#from-melpa][From MELPA]]
-  - [[#straight][straight]]
 - [[#deviations-from-emacs-multi-compile][Deviations from emacs-multi-compile]]
 - [[#configuration][Configuration]]
   - [[#triggers][Triggers]]
@@ -42,14 +41,6 @@ for example to list all of the makefile targets of a project and then execute on
      (push '("melpa" . "https://melpa.org/packages/") package-archives)
      (package-refresh-contents)
      (package-install 'compile-multi)
-   #+end_src
-
-** straight
-   You can also install this package through the [[https://github.com/raxod502/straight.el][straight]] package manager.
-
-   #+begin_src emacs-lisp
-     (straight-use-package '(compile-multi :host github
-                                           :repo "mohkale/compile-multi"))
    #+end_src
 
 * Deviations from emacs-multi-compile
