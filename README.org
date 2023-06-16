@@ -28,6 +28,7 @@ for example to list all of the makefile targets of a project and then execute on
   - [[#actions][Actions]]
 - [[#extensions][Extensions]]
   - [[#consult-multi-compile][consult-multi-compile]]
+  - [[#compile-multi-all-the-icons][compile-multi-all-the-icons]]
 
 * Installation
 ** Manually
@@ -161,4 +162,17 @@ for example to list all of the makefile targets of a project and then execute on
        :after multi-compile
        :demand t
        :config (consult-multi-compile-mode))
+   #+end_src
+
+** compile-multi-all-the-icons
+   This extension adds a handler to [[https://github.com/iyefrat/all-the-icons-completion][all-the-icons-completion]] for affixating
+   compile-multi with icons related the compile-multi type. You have to setup
+   =all-the-icons-completion= correctly before this package will work.
+
+   #+begin_src emacs-lisp
+     (use-package compile-multi-all-the-icons
+       :ensure t
+       :after all-the-icons-completion
+       :after compile-multi
+       :demand t)
    #+end_src
