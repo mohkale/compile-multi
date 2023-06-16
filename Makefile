@@ -1,6 +1,7 @@
 SRC   := $(wildcard *.el)
 BIN   := $(subst .el,.elc,$(SRC))
-EMACS ?= emacs --eval '(add-to-list (quote load-path) (concat default-directory "src/"))'
+EMACS ?= cask emacs \
+    --eval '(push (concat default-directory) load-path)'
 
 .PHONY: ci/cd
 ci/cd: lint test
