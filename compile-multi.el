@@ -34,14 +34,75 @@
 ;;; Code:
 
 (require 'seq)
+(require 'subr-x)
 
 (defgroup compile-multi nil
   "A multi target interface to compile."
   :group 'compilation)
 
-(defcustom compile-multi-default-directory #'ignore
-  "Assign `default-directory' of a compilation in `compile-multi'."
-  :type 'function)
+
+
+;;; Completion interface
+
+(defcustom compile-multi-interface nil
+  "Set the default interface for `compile-multi'.
+To override the interface you must define a variant of
+`compile-multi-read-actions' that accepts an interface argument matching the
+value set here."
+  :type '(optional symbol))
+
+(defvar compile-multi-history nil
+  "History of completions chosen with `compile-multi'.")
+
+(defcustom compile-multi-annotate-cmds t
+  "Affixate `compile-multi' to show the command being compiled."
+  :type 'boolean)
+
+(defcustom compile-multi-annotate-string-cmds t
+  "Auto annotate string based commands in `compile-multi-config'.
+When true if a command in `compile-multi-config' is a string or produces a
+string then generate an annotation for it automatically. This option only
+has significance when `compile-multi-annotate-cmds' is true."
+  :type 'boolean)
+
+(defcustom compile-multi-annotate-limit 48
+  "Truncate any annotations longer than this limit.
+Set to nil to disable truncation."
+  :type '(optional integer))
+
+(defun compile-multi--annotation-function (tasks)
+  "Annotation function for `compile-multi' using TASKS."
+  (lambda (it)
+    (when compile-multi-annotate-cmds
+      (when-let ((cmd (plist-get (cdr (assoc it tasks)) :annotation)))
+        (when (and compile-multi-annotate-limit
+                   (>= (length cmd) compile-multi-annotate-limit))
+          (setq cmd
+                (concat
+                 (string-remove-suffix
+                  " "
+                  (substring cmd 0 compile-multi-annotate-limit))
+                 "…")))
+        (concat " "
+                (propertize " " 'display `(space :align-to (- right ,(+ 1 (length cmd)))))
+                (propertize cmd 'face 'completions-annotations))))))
+
+(cl-defgeneric compile-multi-read-actions (_interface tasks)
+  "Interactively select a `compile-multi' action from TASKS."
+  (assoc (completing-read
+          "Compile: "
+          (lambda (string predicate action)
+            (if (eq action 'metadata)
+                `(metadata
+                  (annotation-function . ,(compile-multi--annotation-function tasks))
+                  (category . compile-multi))
+              (complete-with-action action tasks string predicate)))
+          nil t nil 'compile-multi-history)
+         tasks))
+
+
+
+;;; Task generation
 
 (defcustom compile-multi-forms
   '((file-name . (buffer-file-name))
@@ -49,7 +110,10 @@
     (file-base . (file-name-nondirectory (buffer-file-name)))
     (file-base-no-ext . (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
     (file-ext . (file-name-extension (file-name-nondirectory (buffer-file-name)))))
-  "Alist of special let-forms that'll be substituted in `compile-multi-config'."
+  "Alist of special let-forms to replace in `compile-multi-config'.
+The key is a symbol that may occur in one of the actions of
+`compile-multi-config'. The value is a Lisp form that will be evaluated and
+then replace key."
   :type '(alist :key-type symbol :value-type (sexp :tag "Expression")))
 
 (defcustom compile-multi-config nil
@@ -66,23 +130,6 @@
                                          (sexp :tag "Expression")))
                          (plist :value-type (sexp :tag "Any of the above value types"))
                          ))))
-
-(defvar compile-multi-history nil)
-(defcustom compile-multi-annotate-cmds t
-  "Affixate `compile-multi' to show the command being compiled."
-  :type 'boolean)
-
-(defcustom compile-multi-annotate-string-cmds t
-  "Auto annotate string based commands in `compile-multi-config'.
-When true if a command in `compile-multi-config' is a string or produces a
-string then generate an annotation for it automatically. This option only
-has significance when `compile-multi-annotate-cmds' is true."
-  :type 'boolean)
-
-(defcustom compile-multi-annotate-limit 48
-  "Truncate any annotations longer than this limit.
-Set to nil to disable truncation."
-  :type '(optional integer))
 
 (defun compile-multi--tasks ()
   "Select the tasks from `compile-multi-config' whose triggers are fired."
@@ -106,7 +153,8 @@ Set to nil to disable truncation."
 
 (defun compile-multi--fill-tasks (tasks)
   "Convert TASKS values into shell commands.
-Returns an alist with key-type task-name and value-type shell-command."
+Returns a cons cell of the completion target and a plist of task properties.
+The plist will contain a command and an optional annotation property for task."
   (let (res)
     (dolist (task tasks)
       (cond
@@ -131,7 +179,7 @@ Returns an alist with key-type task-name and value-type shell-command."
                                  "lambda"
                                (format "%s" (cdr task))))
               res))
-       ;; Command is a preformatted plist, nothing to be done.
+       ;; Command is a pre-formatted plist, nothing to be done.
        ((and (listp (cdr task))
              (keywordp (cadr task)))
         ;; (cl-assert (plist-get (cdr task) :command) nil
@@ -166,22 +214,16 @@ Returns an alist with key-type task-name and value-type shell-command."
        (t (error "Unknown task type: %s" task))))
     (nreverse res)))
 
-(defun compile-multi--annotation-function (tasks)
-  "Annotation function for `compile-multi' using TASKS."
-  (lambda (it)
-    (when compile-multi-annotate-cmds
-      (when-let ((cmd (plist-get (cdr (assoc it tasks)) :annotation)))
-        (when (and compile-multi-annotate-limit
-                   (>= (length cmd) compile-multi-annotate-limit))
-          (setq cmd
-                (concat
-                 (string-remove-suffix
-                  " "
-                  (substring cmd 0 compile-multi-annotate-limit))
-                 "…")))
-        (concat " "
-                (propertize " " 'display `(space :align-to (- right ,(+ 1 (length cmd)))))
-                (propertize cmd 'face 'completions-annotations))))))
+
+
+;;; Main entrypoint
+
+(defcustom compile-multi-default-directory nil
+  "Assign `default-directory' of a compilation in `compile-multi'.
+If set this function will be called prior to determining compilation triggers
+and actions and `default-directory' will be set to the result. If the result
+is nil then `default-directory' will not be changed."
+  :type '(optional function))
 
 ;;;###autoload
 (defun compile-multi (&optional query)
@@ -196,17 +238,8 @@ running."
          (tasks (compile-multi--fill-tasks tasks))
          (compile-cmd (if tasks
                           (plist-get
-                           (cdr
-                            (assoc (completing-read
-                                    "Compile: "
-                                    (lambda (string predicate action)
-                                      (if (eq action 'metadata)
-                                          `(metadata
-                                            (annotation-function . ,(compile-multi--annotation-function tasks))
-                                            (category . compile))
-                                        (complete-with-action action tasks string predicate)))
-                                    nil t nil 'compile-multi-history)
-                                   tasks))
+                           (cdr (compile-multi-read-actions
+                                 compile-multi-interface tasks))
                            :command)
                         (read-shell-command "Compile command: "))))
     (cond
