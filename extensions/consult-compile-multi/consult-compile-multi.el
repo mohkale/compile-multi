@@ -1,10 +1,10 @@
-;;; consult-compile-multi.el --- `consult'-ing read support for `compile-multi' -*- lexical-binding: t; -*-
+;;; consult-compile-multi.el --- Consulting read support for `compile-multi' -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023  mohsin kaleem
 
 ;; Author: mohsin kaleem <mohkale@kisara.moe>
 ;; Keywords: tools, compile, build
-;; Package-Requires: ((emacs "28.0") ("compile-multi" "0.3") (consult "0.34"))
+;; Package-Requires: ((emacs "28.0") (compile-multi "0.3") (consult "0.34"))
 ;; Version: 0.1
 ;; Homepage: https://github.com/mohkale/compile-multi
 
