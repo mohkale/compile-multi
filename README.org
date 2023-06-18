@@ -157,11 +157,11 @@ for example to list all of the makefile targets of a project and then execute on
    as narrowing.
 
    #+begin_src emacs-lisp
-     (use-package consult-multi-compile
+     (use-package consult-compile-multi
        :ensure t
-       :after multi-compile
+       :after compile-multi
        :demand t
-       :config (consult-multi-compile-mode))
+       :config (consult-compile-multi-mode))
    #+end_src
 
 ** compile-multi-all-the-icons
