@@ -39,6 +39,7 @@
 (defcustom consult-compile-multi-narrow
   '((?p "Project" project)
     (?c "CMake" cmake ctest)
+    (?e "Emacs" emacs)
     (?t "Test" ctest))
   "Narrowing configuration for `compile-multi'.
 This configuration lets you filter down completion candidates exposed by
