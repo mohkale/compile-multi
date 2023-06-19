@@ -9,14 +9,19 @@
 
 
 
-A rewrite of [[https://github.com/ReanGD/emacs-multi-compile][multi-compile]] providing a simpler and more feature-full experience.
-
-This package provides a command that can be used to run compilation commands that
-match one or more predicates for the current directory or project. This can be used
-for example to list all of the makefile targets of a project and then execute one.
+A multi-target =M-x compile= interface inspired by [[https://github.com/ReanGD/emacs-multi-compile][multi-compile]].
 
 #+CAPTION: Obligatory screenshot of compile-multi in action.
-[[https://user-images.githubusercontent.com/23294780/134347328-96583728-16d2-4e12-b9ec-43abcbd968b8.png]]
+[[https://user-images.githubusercontent.com/23294780/246896395-eb920b00-1c0e-4d55-972f-1c4ac2b195cf.png]]
+
+This package provides a framework for associating actions with triggers. A trigger is
+any predicate that applies to the current file, project or directory. An action is a
+shell command or interactive function or anything that can be invoked when the
+associated trigger is set. You can use this to construct rich command interfaces
+emulating those offered by more integrated development environments. You can also
+plug in compilation targets directly from build frameworks or test tools, etc. See
+[[https://github.com/mohkale/projection#projection-multi-compile][projection-multi-compile]] for a package that plugs compile-multi into various build
+tools.
 
 * Table of Contents                                                     :TOC:
 - [[#installation][Installation]]
