@@ -48,7 +48,7 @@ This configuration lets you filter down completion candidates exposed by
           :key-type (character :tag "Character to narrow on")
           :value-type
           (cons (string :tag "Title of narrow")
-                (repeat (list (symbol :tag "compile-multi types matching narrowing config")))))
+                (repeat (symbol :tag "compile-multi types matching narrowing config"))))
   :group 'consult-compile-multi)
 
 (defun consult-compile-multi--narrow ()
