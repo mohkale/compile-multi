@@ -3,7 +3,7 @@
 ;; Author: Mohsin Kaleem <mohkale@kisara.moe>
 ;; Keywords: project, convenience
 ;; Package-Requires: ((emacs "29") (compile-multi "0.4") (embark "0.22.1"))
-;; Version: 0.4
+;; Version: 0.5
 ;; Homepage: https://github.com/mohkale/compile-multi
 
 ;; Copyright (C) 2023  Mohsin Kaleem

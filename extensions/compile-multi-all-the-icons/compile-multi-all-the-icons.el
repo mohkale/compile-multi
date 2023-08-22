@@ -5,7 +5,7 @@
 ;; Author: mohsin kaleem <mohkale@kisara.moe>
 ;; Keywords: tools, compile, build
 ;; Package-Requires: ((emacs "28.0") (all-the-icons-completion "0.0.1"))
-;; Version: 0.4
+;; Version: 0.5
 ;; Homepage: https://github.com/mohkale/compile-multi
 
 ;; This program is free software; you can redistribute it and/or modify
