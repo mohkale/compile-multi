@@ -234,12 +234,14 @@ The plist will contain a command and an optional annotation property for task."
        (t (error "Unknown task type: %s" task))))
     (nreverse res)))
 
-(defun compile-multi--add-type-property (tasks)
+(defun compile-multi--add-properties (tasks)
   "Attach a type property to `compile-multi' TASKS."
   (dolist (task tasks)
     (when-let* ((group-pos (string-match-p ":" (car task)))
                 (type (intern (substring (car task) 0 group-pos))))
-      (add-text-properties 0 1 (list 'consult--type type) (car task))))
+      (add-text-properties 0 1 (list 'consult--type type) (car task)))
+    (when-let ((command (plist-get (cdr task) :command)))
+      (add-text-properties 0 1 (list 'compile-multi--task command) (car task))))
   tasks)
 
 
@@ -265,7 +267,7 @@ running."
          (tasks (thread-first
                   (compile-multi--tasks)
                   (compile-multi--fill-tasks)
-                  (compile-multi--add-type-property)))
+                  (compile-multi--add-properties)))
          (compile-cmd (if tasks
                           (plist-get
                            (cdr (compile-multi-read-actions

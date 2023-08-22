@@ -181,3 +181,23 @@ tools.
        :after compile-multi
        :demand t)
    #+end_src
+
+** compile-multi-embark
+   This extension adds support between compile-multi embark. This has 2 affects:
+   1. Defines a new compile-multi command map for Embark.
+   2. Adds a transformer to embark so any actions you run on compile-multi through
+      embark in the minibuffer actually route to the underlying command you wanted to
+      run them on. For example this can be used with the =kill-new= feature to copy the
+      compilation command compile-multi would have run.
+
+
+   To use this extension you must install it and use enable =compile-multi-embark-mode=.
+
+   #+begin_src emacs-lisp
+     (use-package compile-multi-embark
+       :ensure t
+       :after embark
+       :after compile-multi
+       :demand t
+       :config (compile-multi-embark-mode +1))
+   #+end_src
