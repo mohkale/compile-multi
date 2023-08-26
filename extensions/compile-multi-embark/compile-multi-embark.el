@@ -1,4 +1,4 @@
-;;; compile-multi-embark.el --- compile-multi integration for `embark' -*- lexical-binding: t; -*-
+;;; compile-multi-embark.el --- Integration for `compile-multi' and `embark' -*- lexical-binding: t; -*-
 
 ;; Author: Mohsin Kaleem <mohkale@kisara.moe>
 ;; Keywords: project, convenience
