@@ -4,7 +4,7 @@
 
 ;; Author: mohsin kaleem <mohkale@kisara.moe>
 ;; Keywords: tools, compile, build
-;; Package-Requires: ((emacs "28.0") (compile-multi "0.4") (consult "0.34"))
+;; Package-Requires: ((emacs "29.1") (compile-multi "0.4") (consult "0.34"))
 ;; Version: 0.5
 ;; Homepage: https://github.com/mohkale/compile-multi
 
