@@ -156,6 +156,11 @@ tools.
 
 * Extensions
 ** consult-multi-compile
+
+#+html: <p align="right">
+#+html:   <a href="https://melpa.org/#/consult-compile-multi"><img alt="MELPA" src="https://melpa.org/packages/consult-compile-multi-badge.svg"/></a>
+#+html: </p>
+
    Is an extension for multi-compile that runs the interactive selection of targets
    through consult instead of completing-read. This is very similar to the existing
    completing-read interface but enhances it with some useful consult features such
@@ -170,6 +175,11 @@ tools.
    #+end_src
 
 ** compile-multi-all-the-icons
+
+#+html: <p align="right">
+#+html:   <a href="https://melpa.org/#/compile-multi-all-the-icons"><img alt="MELPA" src="https://melpa.org/packages/compile-multi-all-the-icons-badge.svg"/></a>
+#+html: </p>
+
    This extension adds a handler to [[https://github.com/iyefrat/all-the-icons-completion][all-the-icons-completion]] for affixating
    compile-multi with icons related the compile-multi type. You have to setup
    =all-the-icons-completion= correctly before this package will work.
@@ -183,6 +193,11 @@ tools.
    #+end_src
 
 ** compile-multi-embark
+
+#+html: <p align="right">
+#+html:   <a href="https://melpa.org/#/compile-multi-embark"><img alt="MELPA" src="https://melpa.org/packages/compile-multi-embark-badge.svg"/></a>
+#+html: </p>
+
    This extension adds support between compile-multi embark. This has 2 affects:
    1. Defines a new compile-multi command map for Embark.
    2. Adds a transformer to embark so any actions you run on compile-multi through
