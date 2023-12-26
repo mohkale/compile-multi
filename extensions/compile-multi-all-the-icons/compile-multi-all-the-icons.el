@@ -48,7 +48,7 @@
    (poetry       all-the-icons-alltheicon "python"         :height 1.0 :face all-the-icons-dblue)
    ;; Types we recommend users override.
    (emacs        all-the-icons-fileicon "elisp"            :height 1.0 :v-adjust -0.1 :face all-the-icons-purple)
-   (local        all-the-icons-fileicon "shield"           :face all-the-icons-lblue)
+   (local        all-the-icons-faicon   "shield"           :face all-the-icons-lblue)
    ;; The default. Omit this to not have any icons when none are configured.
    (t            all-the-icons-fileicon "powershell"       :face all-the-icons-blue))
  "Icon configuration for `compile-multi' completions."
