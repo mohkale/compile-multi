@@ -151,6 +151,9 @@ then replace key."
                          (plist :value-type (sexp :tag "Any of the above value types"))
                          ))))
 
+(defvar compile-multi-dir-local-config nil
+  "Variant of `compile-multi-config' to be set in .dir-locals.el")
+
 (defun compile-multi--tasks ()
   "Select the tasks from `compile-multi-config' whose triggers are fired."
   (apply #'append
@@ -169,7 +172,8 @@ then replace key."
                        ((functionp trigger)
                         (funcall trigger))
                        (t (error "Unknown trigger type: %s" trigger)))))
-                  compile-multi-config))))
+                  (append compile-multi-config
+                          compile-multi-dir-local-config)))))
 
 (defun compile-multi--fill-tasks (tasks)
   "Convert TASKS values into shell commands.
