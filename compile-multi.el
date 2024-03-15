@@ -136,23 +136,28 @@ The key is a symbol that may occur in one of the actions of
 then replace key."
   :type '(alist :key-type symbol :value-type (sexp :tag "Expression")))
 
+(defconst compile-multi-config-type
+  '(alist :key-type
+          (choice (const t :tag "Default")
+                  (symbol :tag "Major-mode")
+                  (regexp :tag "File/buffer regexp")
+                  (sexp :tag "Expression"))
+          :value-type
+          (repeat
+           (choice (string :tag "Shell command")
+                   (function :tag "Shell command generator")
+                   (repeat (choice string
+                                   (sexp :tag "Expression")))
+                   (plist :value-type (sexp :tag "Any of the above value types"))
+                   ))))
+
 (defcustom compile-multi-config nil
   "Alist of triggers and actions for those triggers."
-  :type '(alist :key-type
-                (choice (symbol :tag "Major-mode")
-                        (regexp :tag "File/buffer regexp")
-                        (sexp :tag "Expression"))
-                :value-type
-                (repeat
-                 (choice (string :tag "Shell command")
-                         (function :tag "Shell command generator")
-                         (repeat (choice string
-                                         (sexp :tag "Expression")))
-                         (plist :value-type (sexp :tag "Any of the above value types"))
-                         ))))
+  :type compile-multi-config-type)
 
-(defvar compile-multi-dir-local-config nil
-  "Variant of `compile-multi-config' to be set in .dir-locals.el")
+(defcustom compile-multi-dir-local-config nil
+  "Variant of `compile-multi-config' to be set in .dir-locals.el"
+  :type compile-multi-config-type)
 
 (defun compile-multi--tasks ()
   "Select the tasks from `compile-multi-config' whose triggers are fired."
