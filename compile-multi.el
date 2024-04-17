@@ -148,8 +148,10 @@ then replace key."
                    (function :tag "Shell command generator")
                    (repeat (choice string
                                    (sexp :tag "Expression")))
-                   (plist :value-type (sexp :tag "Any of the above value types"))
-                   ))))
+                   ;; (plist :value-type (sexp :tag "Any of the above value types"))
+                   (cons (string :tag "Command Name")
+                         (sexp :tag "Any of the above value types"))))
+          ))
 
 (defcustom compile-multi-config nil
   "Alist of triggers and actions for those triggers."
