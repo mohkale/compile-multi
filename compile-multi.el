@@ -290,11 +290,11 @@ running."
       (when query
         (setq compile-cmd
               (read-shell-command "Compile command: " compile-cmd)))
-      (compile compile-cmd))
+      (compile compile-cmd (consp query)))
      ((functionp compile-cmd)
       (if query
           (eval-expression
-           (read--expression "Eval: " (format "(%s)" compile-command)))
+           (read--expression "Eval: " (format "(%s)" compile-cmd)))
         (funcall compile-cmd)))
      (t (error "Don't know how to run the command %s" compile-cmd)))))
 
