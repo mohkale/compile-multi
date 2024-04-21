@@ -73,9 +73,9 @@ Set to nil to disable truncation."
 (defcustom compile-multi-group-cmds 'group-and-replace
   "Group commands with the same `compile-multi' root prefix."
   :type '(choice
-          (const group-and-replace :tag "Group and remove group prefix.")
-          (const t :tag "Group candidates.")
-          (const nil :tag "Never group candidates.")))
+          (const :tag "Group and remove group prefix." group-and-replace)
+          (const :tag "Group candidates." t)
+          (const :tag "Never group candidates." nil)))
 
 (defun compile-multi--annotation-function (task)
   "Annotator for TASK."
@@ -158,7 +158,7 @@ then replace key."
   :type compile-multi-config-type)
 
 (defcustom compile-multi-dir-local-config nil
-  "Variant of `compile-multi-config' to be set in .dir-locals.el"
+  "Variant of `compile-multi-config' to be set in .dir-locals.el ."
   :type compile-multi-config-type)
 
 (defun compile-multi--tasks ()

@@ -54,8 +54,8 @@
  "Icon configuration for `compile-multi' completions."
  :group 'compile-multi-all-the-icons
  :type '(list (cons (choice (symbol :tag "Type")
-                            (const t :tag "Default"))
-                    list)))
+                            (const :tag "Default" t))
+                    sexp)))
 
 (cl-defmethod all-the-icons-completion-get-icon (cand (_cat (eql compile-multi)))
   "Return the icon for the candidate CAND of completion category `compile-multi'."
