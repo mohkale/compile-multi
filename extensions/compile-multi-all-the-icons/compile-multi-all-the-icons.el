@@ -40,6 +40,7 @@
  '(;; projection-multi target generators.
    (cmake        all-the-icons-fileicon "cmake"            :face all-the-icons-red)
    (ctest        all-the-icons-fileicon "cmake"            :face all-the-icons-lorange)
+   (gradle       all-the-icons-fileicon "gradle"           :face all-the-icons-blue)
    (make         all-the-icons-fileicon "gnu"              :face all-the-icons-red-alt)
    (npm          all-the-icons-fileicon "npm"              :face all-the-icons-red)
    (project      all-the-icons-fileicon "npm"              :face all-the-icons-red)
