@@ -284,7 +284,7 @@ running."
                            (cdr (compile-multi-read-actions
                                  compile-multi-interface tasks))
                            :command)
-                        (read-shell-command "Compile command: "))))
+                        (read-shell-command "No tasks for compile-multi, run command: "))))
     (cond
      ((stringp compile-cmd)
       (when query
