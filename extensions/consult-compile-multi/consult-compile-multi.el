@@ -38,6 +38,7 @@
 
 (defcustom consult-compile-multi-narrow
   '((?p "Project" project)
+    (?P "Pytest" pytest-file pytest-class pytest-test)
     (?c "CMake" cmake ctest)
     (?e "Emacs" emacs)
     (?t "Test" ctest))
