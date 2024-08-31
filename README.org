@@ -34,6 +34,7 @@ tools.
 - [[#extensions][Extensions]]
   - [[#consult-multi-compile][consult-multi-compile]]
   - [[#compile-multi-all-the-icons][compile-multi-all-the-icons]]
+  - [[#compile-multi-embark][compile-multi-embark]]
 
 * Installation
 ** Manually
@@ -199,7 +200,8 @@ tools.
 #+html: </p>
 
    This extension adds support between compile-multi embark. This has 2 affects:
-   1. Defines a new compile-multi command map for Embark.
+   1. Defines a new compile-multi command map for Embark. This map has a command to
+      let you edit a compile-multi target before executing it.
    2. Adds a transformer to embark so any actions you run on compile-multi through
       embark in the minibuffer actually route to the underlying command you wanted to
       run them on. For example this can be used with the =kill-new= feature to copy the

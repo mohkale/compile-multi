@@ -161,7 +161,7 @@ then replace key."
   "Variant of `compile-multi-config' to be set in .dir-locals.el ."
   :type compile-multi-config-type)
 
-(defun compile-multi--tasks ()
+(defun compile-multi--config-tasks ()
   "Select the tasks from `compile-multi-config' whose triggers are fired."
   (apply #'append
          (mapcar #'cdr
@@ -266,25 +266,33 @@ and actions and `default-directory' will be set to the result. If the result
 is nil then `default-directory' will not be changed."
   :type '(choice (const nil) function))
 
+(defun compile-multi--get-task ()
+  "Generate `compile-multi' tasks and return one selected by the user."
+  (let ((tasks (thread-first
+                 (compile-multi--config-tasks)
+                 (compile-multi--fill-tasks)
+                 (compile-multi--add-properties))))
+    (if tasks
+        (compile-multi-read-actions compile-multi-interface tasks)
+      (list ""
+            :command
+            (read-shell-command "No tasks for compile-multi, run command: ")))))
+
 ;;;###autoload
-(defun compile-multi (&optional query)
+(defun compile-multi (&optional query command)
   "Multi-target interface to compile.
 With optional argument QUERY allow user to modify compilation command before
-running."
+running. COMMAND when set will be used instead of prompting the user for a
+compile-multi command."
   (interactive "P")
   (let* ((default-directory (or (and compile-multi-default-directory
                                      (funcall compile-multi-default-directory))
                                 default-directory))
-         (tasks (thread-first
-                  (compile-multi--tasks)
-                  (compile-multi--fill-tasks)
-                  (compile-multi--add-properties)))
-         (compile-cmd (if tasks
-                          (plist-get
-                           (cdr (compile-multi-read-actions
-                                 compile-multi-interface tasks))
-                           :command)
-                        (read-shell-command "No tasks for compile-multi, run command: "))))
+         (compile-cmd
+          (or command
+              (plist-get (cdr (or (compile-multi--get-task)
+                                  (user-error "compile-multi: Invalid task read from user")))
+                         :command))))
     (cond
      ((stringp compile-cmd)
       (when query

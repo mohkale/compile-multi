@@ -30,6 +30,7 @@
 ;;; Code:
 
 (require 'embark)
+(require 'compile-multi)
 
 (defgroup compile-multi-embark nil
   "Integration between `compile-multi' and `embark'."
@@ -38,6 +39,7 @@
 (defvar compile-multi-embark-command-map
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map embark-general-map)
+    (define-key map "e" #'compile-multi-embark-edit)
     map)
   "Keymap active in `compile-multi' `embark' sessions.")
 
@@ -51,6 +53,10 @@ TYPE should always be `compile-multi'."
   (let ((command (get-text-property 0 'compile-multi--task target)))
     (cl-assert command 'show-args "Encountered compile-multi candidate with no command")
     (cons type command)))
+
+(defun compile-multi-embark-edit (command)
+  "Edit before running `compile' on COMMAND."
+  (compile-multi 'query command))
 
 ;;;###autoload
 (define-minor-mode compile-multi-embark-mode
