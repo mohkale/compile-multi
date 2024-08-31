@@ -49,7 +49,7 @@
 To override the interface you must define a variant of
 `compile-multi-read-actions' that accepts an interface argument matching the
 value set here."
-  :type '(optional symbol))
+  :type '(choice (const nil) symbol))
 
 (defvar compile-multi-history nil
   "History of completions chosen with `compile-multi'.")
@@ -68,7 +68,7 @@ has significance when `compile-multi-annotate-cmds' is true."
 (defcustom compile-multi-annotate-limit 48
   "Truncate any annotations longer than this limit.
 Set to nil to disable truncation."
-  :type '(optional integer))
+  :type '(choice (const nil) integer))
 
 (defcustom compile-multi-group-cmds 'group-and-replace
   "Group commands with the same `compile-multi' root prefix."
@@ -264,7 +264,7 @@ The plist will contain a command and an optional annotation property for task."
 If set this function will be called prior to determining compilation triggers
 and actions and `default-directory' will be set to the result. If the result
 is nil then `default-directory' will not be changed."
-  :type '(optional function))
+  :type '(choice (const nil) function))
 
 ;;;###autoload
 (defun compile-multi (&optional query)
