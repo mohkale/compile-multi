@@ -297,7 +297,7 @@ compile-multi command."
      ((stringp compile-cmd)
       (when query
         (setq compile-cmd
-              (read-shell-command "Compile command: " compile-cmd)))
+              (compilation-read-command compile-cmd)))
       (compile compile-cmd (consp query)))
      ((functionp compile-cmd)
       (if query
