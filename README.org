@@ -193,6 +193,21 @@ tools.
        :demand t)
    #+end_src
 
+** compile-multi-nerd-icons
+
+
+   This extension adds a handler to [[https://github.com/rainstormstudio/nerd-icons-completion][nerd-icons-completion]] for affixating
+   compile-multi with nerd icons related the compile-multi type. You have to setup
+   =nerd-icons-completion= correctly before this package will work.
+
+   #+begin_src emacs-lisp
+     (use-package compile-multi-nerd-icons
+       :ensure t
+       :after nerd-icons-completion
+       :after compile-multi
+       :demand t)
+   #+end_src
+
 ** compile-multi-embark
 
 #+html: <p align="right">
