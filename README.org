@@ -182,7 +182,7 @@ tools.
 #+html: </p>
 
    This extension adds a handler to [[https://github.com/iyefrat/all-the-icons-completion][all-the-icons-completion]] for affixating
-   compile-multi with icons related the compile-multi type. You have to setup
+   compile-multi with icons related to the compile-multi type. You have to setup
    =all-the-icons-completion= correctly before this package will work.
 
    #+begin_src emacs-lisp
@@ -197,7 +197,7 @@ tools.
 
 
    This extension adds a handler to [[https://github.com/rainstormstudio/nerd-icons-completion][nerd-icons-completion]] for affixating
-   compile-multi with nerd icons related the compile-multi type. You have to setup
+   compile-multi with nerd icons related to the compile-multi type. You have to setup
    =nerd-icons-completion= correctly before this package will work.
 
    #+begin_src emacs-lisp
