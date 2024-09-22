@@ -195,6 +195,9 @@ tools.
 
 ** compile-multi-nerd-icons
 
+#+html: <p align="right">
+#+html:   <a href="https://melpa.org/#/compile-multi-nerd-icons"><img alt="MELPA" src="https://melpa.org/packages/compile-multi-nerd-icons-badge.svg"/></a>
+#+html: </p>
 
    This extension adds a handler to [[https://github.com/rainstormstudio/nerd-icons-completion][nerd-icons-completion]] for affixating
    compile-multi with nerd icons related to the compile-multi type. You have to setup
