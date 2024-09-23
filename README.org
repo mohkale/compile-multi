@@ -34,6 +34,7 @@ tools.
 - [[#extensions][Extensions]]
   - [[#consult-multi-compile][consult-multi-compile]]
   - [[#compile-multi-all-the-icons][compile-multi-all-the-icons]]
+  - [[#compile-multi-nerd-icons][compile-multi-nerd-icons]]
   - [[#compile-multi-embark][compile-multi-embark]]
 
 * Installation
