@@ -299,6 +299,12 @@ compile-multi command."
         (setq compile-cmd
               (compilation-read-command compile-cmd)))
       (compile compile-cmd (consp query)))
+     ((and (functionp compile-cmd)
+           (commandp compile-cmd))
+      (if query
+          (eval-expression
+           (read--expression "Eval: " (format "(%s)" `(call-interactively ,compile-cmd))))
+        (call-interactively compile-cmd)))
      ((functionp compile-cmd)
       (if query
           (eval-expression
