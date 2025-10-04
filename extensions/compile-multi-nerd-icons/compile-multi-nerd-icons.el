@@ -41,6 +41,7 @@
     (cmake        nerd-icons-sucicon "nf-seti-makefile"            :face nerd-icons-red)
     (ctest        nerd-icons-sucicon "nf-seti-makefile"            :face nerd-icons-lorange)
     (gradle       nerd-icons-sucicon "nf-seti-gradle"              :face nerd-icons-blue)
+    (maven        nerd-icons-devicon "nf-dev-maven"                :face nerd-icons-red-alt)
     (make         nerd-icons-devicon "nf-dev-gnu"                  :face nerd-icons-red-alt)
     (npm          nerd-icons-sucicon "nf-seti-npm"                 :face nerd-icons-red)
     (project      nerd-icons-sucicon "nf-seti-project"             :face nerd-icons-red)
@@ -50,6 +51,8 @@
     ;; Types we recommend users override.
     (emacs        nerd-icons-sucicon "nf-custom-emacs"             :face nerd-icons-purple)
     (local        nerd-icons-mdicon  "nf-md-shield"                :face nerd-icons-blue)
+    ;; Fallback for builtin projection commands
+    (projection    nerd-icons-octicon "nf-oct-project"             :face all-the-icons-purple-alt)
     ;; The default. Omit this to not have any icons when none are configured.
     (t            nerd-icons-sucicon "nf-seti-powershell"          :face nerd-icons-blue))
   "Icon configuration for `compile-multi' completions."

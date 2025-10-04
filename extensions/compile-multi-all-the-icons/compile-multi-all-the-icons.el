@@ -41,6 +41,7 @@
    (cmake        all-the-icons-fileicon "cmake"            :face all-the-icons-red)
    (ctest        all-the-icons-fileicon "cmake"            :face all-the-icons-lorange)
    (gradle       all-the-icons-fileicon "gradle"           :face all-the-icons-blue)
+   (maven        all-the-icons-alltheicon "java"           :face all-the-icons-red-alt)
    (make         all-the-icons-fileicon "gnu"              :face all-the-icons-red-alt)
    (npm          all-the-icons-fileicon "npm"              :face all-the-icons-red)
    (project      all-the-icons-fileicon "npm"              :face all-the-icons-red)
@@ -50,6 +51,8 @@
    ;; Types we recommend users override.
    (emacs        all-the-icons-fileicon "elisp"            :height 1.0 :v-adjust -0.1 :face all-the-icons-purple)
    (local        all-the-icons-faicon   "shield"           :face all-the-icons-lblue)
+   ;; Fallback for builtin projection commands
+   (projection   all-the-icons-octicon "project"           :face all-the-icons-purple-alt)
    ;; The default. Omit this to not have any icons when none are configured.
    (t            all-the-icons-fileicon "powershell"       :face all-the-icons-blue))
  "Icon configuration for `compile-multi' completions."
